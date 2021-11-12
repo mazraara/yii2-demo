@@ -11,8 +11,8 @@ class ProductController extends Controller
         return $this->render('index',['menu'=>$menu]);
     }
 
-    public function actionDetail()
+    public function actionDetail($id,$name)
     {
-        return $this->render('detail');
+        return $this->render('detail',['id'=>$id,'name'=>$name]);
     }
 }

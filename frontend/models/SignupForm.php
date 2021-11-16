@@ -11,6 +11,8 @@ use common\models\User;
  */
 class SignupForm extends Model
 {
+    public $name;
+    public $phone;
     public $username;
     public $email;
     public $password;
@@ -24,17 +26,30 @@ class SignupForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            [
+                'username',
+                'unique',
+                'targetClass' => '\common\models\User',
+                'message' => 'This username has already been taken.'
+            ],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            [
+                'email',
+                'unique',
+                'targetClass' => '\common\models\User',
+                'message' => 'This email address has already been taken.'
+            ],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['password', 'string', 'min' => 6],
+
+            ['name', 'string', 'max' => 100],
+            ['phone', 'integer']
         ];
     }
 
@@ -48,8 +63,10 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
         $user = new User();
+        $user->name = $this->name;
+        $user->phone = $this->phone;
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);

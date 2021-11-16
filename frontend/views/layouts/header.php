@@ -36,6 +36,7 @@ use yii\helpers\Url;
             $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
             $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
         } else {
+            $menuItems[] = ['label' => 'Articles', 'url' => ['/post-article']];
             $menuItems[] = '<li>'
                 . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
                 . Html::submitButton(

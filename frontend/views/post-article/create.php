@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput() ?>
     <?= $form->field($model, 'body')->textarea(['rows'=>5]) ?>
+    <?= $form->field($model, 'status')->dropDownList([1=>'Active',0=>'Inactive']) ?>
     <?=Html::submitButton('Post',['class'=>'btn btn-primary'])?>
     <?php ActiveForm::end() ?>
 </div>

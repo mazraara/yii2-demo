@@ -24,6 +24,8 @@ class m211116_041737_add_post_table extends Migration
             'title' => $this->string()->notNull(),
             'body' => $this->string()->null(),
             'image' => $this->string()->null(),
+            'status' => $this->integer()->null(),
+            'slug' => $this->string()->null(),
             'created_at' => $this->integer()->null(),
             'updated_at' => $this->integer()->null(),
         ], $tableOptions);

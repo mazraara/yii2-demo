@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\SluggableBehavior;
 
 /**
- * This is the model class for table "afri_posts".
+ * This is the model class for table "posts".
  *
  * @property integer $id
  * @property string $posted_by
@@ -17,7 +17,7 @@ use yii\behaviors\SluggableBehavior;
  * @property string $slug
  * @property string $created_at
  */
-class Posts extends \yii\db\ActiveRecord
+class Posts2 extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -69,5 +69,16 @@ class Posts extends \yii\db\ActiveRecord
             'slug' => 'Slug',
             'created_at' => 'Created At',
         ];
+    }
+
+    public static function getDb()
+    {
+        $database = 'db2';
+        return Yii::$app->$database;
+    }
+
+    public static function setDatabase($database)
+    {
+        self::$database = $database;
     }
 }

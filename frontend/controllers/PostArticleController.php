@@ -5,9 +5,11 @@ namespace frontend\controllers;
 use app\models\User;
 use frontend\models\Posts;
 use frontend\models\Posts2;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\AccessControl;
 use Yii;
+use yii\web\UploadedFile;
 
 class PostArticleController extends Controller
 {
@@ -29,7 +31,17 @@ class PostArticleController extends Controller
     public function actionIndex()
     {
         $user_id = Yii::$app->user->identity->id;
-        $model = Posts::find()->where(['posted_by' => $user_id])->all();
+        //$model = Posts::find()->where(['posted_by'=>$user_id])->all();
+
+        $model = new ActiveDataProvider(
+            [
+                'query' => Posts::find()->where(['posted_by' => $user_id]),
+                'pagination' => [
+                    'pageSize' => 20
+                ]
+            ]
+        );
+
         return $this->render('index', ['model' => $model]);
     }
 
@@ -38,7 +50,10 @@ class PostArticleController extends Controller
         $model = new Posts();
         if ($model->load(Yii::$app->request->post())) {
             $model->posted_by = Yii::$app->user->identity->getId();
-            if ($model->save(false)) {
+            $image = UploadedFile::getInstance($model, 'image');
+            $image->saveAs('img/upload/' . $image->baseName . '.' . $image->extension);
+            $model->image = $image->baseName . '.' . $image->extension;
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -104,6 +119,16 @@ class PostArticleController extends Controller
             $posts->body = $faker->paragraph(random_int(10, 20));
             $posts->save();
         }
+    }
+
+    public function actionPjax()
+    {
+        $message = Yii::$app->request->post('message');
+        $response = null;
+        if (!is_null($message)) {
+            $response = 'Your message is: ' . $message;
+        }
+        return $this->render('pjax', ['response' => $response]);
     }
 
 }

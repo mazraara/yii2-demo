@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\User;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 
@@ -51,6 +52,7 @@ class Posts extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 100],
             [['image'], 'string', 'max' => 200],
             [['slug'], 'string', 'max' => 255],
+            [['image'],'file','skipOnEmpty'=>false,'extensions'=>'jpg,png,gif']
         ];
     }
 
@@ -69,5 +71,10 @@ class Posts extends \yii\db\ActiveRecord
             'slug' => 'Slug',
             'created_at' => 'Created At',
         ];
+    }
+
+    public function getPoster()
+    {
+        return $this->hasOne(User::class, ['id' => 'posted_by']);
     }
 }

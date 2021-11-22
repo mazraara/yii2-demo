@@ -6,7 +6,8 @@ use frontend\models\Posts;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
-use yii\base\InvalidArgumentException;
+use yii\base\InvalidParamException;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -81,12 +82,19 @@ class SiteController extends Controller
 session_start();
         $_SESSION['var2']= 'This is using session method';*/
 
-        $posts = Posts::find()->select('slug,title,body,posted_by,created_at')
-//            ->where(['status' => 1])
+        /*$posts = Posts::find()->select('slug,title,body,posted_by,created_at')
+            ->where(['status'=>1])
             ->andWhere('posted_by != 0 and posted_by != ""')
             ->orderBy('rand()')
             ->limit(20)
-            ->all();
+            ->all();*/
+
+        $posts = new ActiveDataProvider([
+            'query'=>Posts::find()->where(['status'=>1])->andWhere('posted_by != 0 and posted_by != ""'),
+            'pagination'=>[
+                'pageSize'=>20,
+            ]
+        ]);
 
         //echo Posts::find()->where(['status'=>1])->count();
 

@@ -53,7 +53,7 @@ class PostArticleController extends Controller
             $image = UploadedFile::getInstance($model, 'image');
             $image->saveAs('img/upload/' . $image->baseName . '.' . $image->extension);
             $model->image = $image->baseName . '.' . $image->extension;
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

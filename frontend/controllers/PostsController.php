@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use frontend\models\User;
+use common\models\User;
 use yii\data\Pagination;
 use yii\web\Controller;
 use frontend\models\Posts;
@@ -22,7 +22,7 @@ class PostsController extends Controller
 
     public function actionPost($id)
     {
-        $post = Posts::findOne(['slug' => $id]);
+        $post = Posts::findOne(['id' => $id]);
         return $this->render('post',['post'=>$post]);
     }
 
